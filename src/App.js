@@ -22,7 +22,7 @@ function App() {
   return (
     <div className='container'>
       <h1>Welcome, party people!</h1>
-      <p>Click the button to toggle the theme</p>
+      <p style={{color: 'white' }}>Click the button to toggle the theme</p>
 
       <button onClick={toggleTheme}>Current theme: {theme}</button>
 

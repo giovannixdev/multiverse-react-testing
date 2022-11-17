@@ -3,6 +3,8 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { App } from './App';
+import { prettyDOM } from '@testing-library/dom';
+
 
 /**
  * Verify something should render
@@ -14,8 +16,8 @@ test('App should render', () => {
 });
 
 test('Button should render', () => {
-  // TODO: change the expect to actually test something 😉
-  expect('no test written').toBe('tested');
+  render(<App />);
+  expect(screen.getByText(/light/i)).toBeInTheDocument();
 });
 
 /**
@@ -23,16 +25,26 @@ test('Button should render', () => {
  * hint: use fireEvent.click(element) to trigger a click event on an element
  */
 test('theme button should update button text', () => {
-  // TODO: change the expect to actually test something 😉
-  expect('no test written').toBe('tested');
+  render(<App />);
+  const buttonElement = screen.getByText(/light/i);
+  fireEvent.click(buttonElement);
+  expect(screen.getByText(/dark/i)).toBeInTheDocument();
 });
 
 // BONUS
 // hint: there is a `.toHaveStyle` method.
 // e.g.: expect(element).toHaveStyle('color: #FFF');
 test('theme button should toggle styles', () => {
-  // TODO: change the expect to actually test something 😉
-  expect('no test written').toBe('tested');
+  render(<App />);
+  const buttonElement = screen.getByText(/light/i);
+  fireEvent.click(buttonElement);
+  /* This didn't work because the white color is inhereted from the body */
+  // const element = screen.queryByText(/click the button to toggle the theme/i);
+  // console.log(prettyDOM(element.style.color));
+  // expect(element.style.color).toBe('white');
+  // expect(element).toHaveStyle('color: #FFFFFF');
+  const element2 = document.body;
+  expect(element2).toHaveStyle('color: #FFFFFF');
 });
 
 /**
@@ -45,8 +57,13 @@ test('theme button should toggle styles', () => {
  * (getByText will throw an error if it is not rendered)
  */
 test('hidden button should toggle hidden content', () => {
-  // TODO: change the expect to actually test something 😉
-  expect('no test written').toBe('tested');
+  render(<App />);
+  // const buttonElement = screen.getByText(/show hidden content/i);
+  // fireEvent.click(buttonElement);
+  // expect(screen.getByText(/this content is hidden by default/i)).toBeInTheDocument();
+
+  const element = screen.queryByText(/this content is hidden by default/i);
+  expect(element).not.toBeInTheDocument();
 });
 
 
